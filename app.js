@@ -34,6 +34,9 @@ button.addEventListener('click', (e) => {
 });
 
 const startGame = () => {
-  console.log(`Game has started`);
+  for (let i = 0; i < game.num; i++) {
+    randomNums.push(Math.floor(Math.random() * 8)); // Random int 0-7
+  }
+  console.log(`4-digit code: ${randomNums}`);
 }
 
