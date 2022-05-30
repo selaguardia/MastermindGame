@@ -57,14 +57,32 @@ const compareCombos = () => {
   const length = randomNums.length;
 
   if(game.attempts > 0) {
-    // Check if the player guesses the correct number AND location(index)
+    // Checks if the player guessed a correct number AND location(index).
     for (let i = 0; i < length; i++) {
       if(randomNums[i] == playerGuesses[i]){
         correctNumsAndPos++;
       }
     }
     console.log(`Total Number & Position Correct: ${correctNumsAndPos}`);
-  
+    
+    // Checks if the player guessed a correct number
+    for (let j = 0; j < length; j++) {
+     if(randomNums.includes(playerGuesses[j])) {
+       correctNums++;
+     } 
+    }
+    console.log(`Total Number Correct: ${correctNums}`);
+
+    // Checks if the player guessed the entire combination lock
+    if(correctNumsAndPos === 4) {
+      message.textContent = `Congrats! You unlocked the prize!`;
+      button.textContent = 'UNLOCKED'
+    }
+
+    // Decrements attempts
+    game.attempts--;
+    console.log(`Attempts Left: ${game.attempts}`);
+
   } else {
     message.textContent = "Sorry, you ran out of attempts!";
     button.textContent = "Restart Game";
