@@ -32,6 +32,7 @@ button.addEventListener('click', (e) => {
     startGame();
   } else if (button.textContent === 'Unlock') {
     getPlayerInput();
+    compareCombos();
   }
 });
 
@@ -50,5 +51,23 @@ const getPlayerInput = () => {
     playerGuesses.push(guessToInt);
   });
   console.log(`The player guesses... ${playerGuesses}`);
+}
+
+const compareCombos = () => {
+  const length = randomNums.length;
+
+  if(game.attempts > 0) {
+    // Check if the player guesses the correct number AND location(index)
+    for (let i = 0; i < length; i++) {
+      if(randomNums[i] == playerGuesses[i]){
+        correctNumsAndPos++;
+      }
+    }
+    console.log(`Total Number & Position Correct: ${correctNumsAndPos}`);
+  
+  } else {
+    message.textContent = "Sorry, you ran out of attempts!";
+    button.textContent = "Restart Game";
+  }
 }
 
