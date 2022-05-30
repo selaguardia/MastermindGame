@@ -30,13 +30,25 @@ button.addEventListener('click', (e) => {
     button.textContent = "Unlock";
     message.textContent = "Guess the 4-digit combo to unlock the prize";
     startGame();
+  } else if (button.textContent === 'Unlock') {
+    getPlayerInput();
   }
 });
 
 const startGame = () => {
+  console.log(`Game has begun...`)
   for (let i = 0; i < game.num; i++) {
     randomNums.push(Math.floor(Math.random() * 8)); // Random int 0-7
   }
   console.log(`4-digit code: ${randomNums}`);
+}
+
+const getPlayerInput = () => {
+  console.log(`Getting player input....`);
+  playerInput.forEach(guess => {
+    let guessToInt = parseInt(guess.value);
+    playerGuesses.push(guessToInt);
+  });
+  console.log(`The player guesses... ${playerGuesses}`);
 }
 
