@@ -17,6 +17,7 @@ const game = {
 // Adds dynamic text for button and  instructions
 message.textContent = "Click the button below to start game!";
 button.textContent = "Start Game";
+playerHistory.innerHTML='';
 
 // Button click handler
 button.addEventListener('click', (e) => {
@@ -28,6 +29,11 @@ button.addEventListener('click', (e) => {
     playerGuesses=[];
     button.textContent = "Unlock";
     message.textContent = "Guess the 4-digit combo to unlock the prize";
+    startGame();
   }
 });
+
+const startGame = () => {
+  console.log(`Game has started`);
+}
 
