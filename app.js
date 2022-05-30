@@ -1,7 +1,7 @@
 const message = document.getElementById("messageBox");
 const button = document.getElementById("checkButton");
 const playerHistory = document.getElementById("playerHistory");
-const attemptsRemaining = document.getElementById('attemptRemaining');
+const attemptsRemaining = document.getElementById("attemptRemaining");
 const playerInput = document.querySelectorAll(".playerInput");
 
 let randomNums = [];
@@ -15,47 +15,49 @@ const game = {
   num: 4,
 };
 
-// Adds dynamic text for button and  instructions
+// Adds dynamic text for button and instructions
 message.textContent = "Click the button below to start game!";
 button.textContent = "Start Game";
 
 // Button click handler
 button.addEventListener("click", (e) => {
-  if (button.textContent === "Start Game") {
-    // Reset game
-    game.attempts = attempts;
-    playerHistory.innerHTML = "";
-    randomNums = [];
-    playerGuesses = [];
-    message.textContent = "Guess the 4-digit combo to unlock the prize";
-    button.textContent = "Unlock";
+  if (button.textContent === "Start Game" || button.textContent === "Restart Game") {
     startGame();
   } else if (button.textContent === "Unlock") {
-    playerHistory.innerHTML = "Your Previous Choices:";
     getPlayerInput();
     compareCombos();
-  }
+  };
 });
 
 const startGame = () => {
-  console.log(`Game has begun...`);
+  // Reset game
+  game.attempts = attempts;
+  randomNums = [];
+  playerGuesses = [];
+  message.textContent = "Guess the 4-digit combo to unlock the prize";
+  button.textContent = "Unlock";
+  attemptsRemaining.textContent = `Attempts Remaining: ${game.attempts}`;
+  
+  while(playerHistory.firstChild) {
+    playerHistory.removeChild(playerHistory.firstChild);
+  }
+  
   for (let i = 0; i < game.num; i++) {
     randomNums.push(Math.floor(Math.random() * 8)); // Random int 0-7
   }
   console.log(`4-digit code: ${randomNums}`);
-  attemptsRemaining.textContent = `Attempts Remaining: ${game.attempts}`;
 };
 
 const getPlayerInput = () => {
-  console.log(`Getting player input....`);
+  // Decrements attempts
+  game.attempts--;
+  console.log(`Attempts: ${game.attempts}`)
+  attemptsRemaining.textContent = `Attempts Remaining: ${game.attempts}`;
+  playerHistory.innerHTML = "Your Previous Choices:";
   playerInput.forEach((guess) => {
     let guessToInt = parseInt(guess.value);
     playerGuesses.push(guessToInt);
   });
-  // Decrements attempts
-  game.attempts--;
-  console.log(`Attempts Left: ${game.attempts}`);
-  attemptsRemaining.textContent = `Attempts Remaining: ${game.attempts}`;
   console.log(`The player guesses... ${playerGuesses}`);
 };
 
@@ -82,16 +84,13 @@ const compareCombos = () => {
     // Checks if the player guessed the entire combination lock
     if (correctNumsAndPos === 4) {
       message.textContent = `Congrats! You unlocked the prize!`;
-      button.textContent = "UNLOCKED";
+      button.textContent = "Restart Game";
     }
-
-
 
     // adds player history
     handleHistory();
   } else {
     message.textContent = "Sorry, you ran out of attempts!";
-    attemptsRemaining.textContent = `Attempts Remaining: 0`;
     button.textContent = "Restart Game";
   }
 };
@@ -104,12 +103,13 @@ const handleHistory = () => {
   playerGuesses = [];
   correctNums = 0;
   correctNumsAndPos = 0;
-
+  
+  
   let html = `
   <li class="list-group-item"><hr>
-  Player Guessed:[${guessHistory}]<br>
-  Number Correct: ${correctNumsHistory}<br>
-  Number & Position Correct: ${correctNumsAndPosHistory}
+    <strong>Player Guessed:</strong> ${guessHistory}<br>
+    <strong>Number Correct:</strong> ${correctNumsHistory}<br>
+    <strong>Number & Position Correct:</strong> ${correctNumsAndPosHistory}
   </li>`;
   playerHistory.insertAdjacentHTML("afterend", html);
 };
