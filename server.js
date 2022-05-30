@@ -6,10 +6,10 @@ const PORT = 4000;
 
 // Middleware
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms'));
+app.set('view engine', 'ejs');
 
-app.get('/', function (req, res) {
-  res.send('hello, world!')
-})
+// Routes
+app.use('/', require('./routes/game'));
 
 app.listen(PORT, () => {
   console.log(`✅ Listening for client requests on Port: ${PORT} ✅`);
