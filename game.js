@@ -16,12 +16,6 @@ const game = {
   num: 4,
 };
 
-const apiURL = 'https://www.random.org/integers/?num=4&min=0&max=7&col=1&base=10&format=plain&rnd=new'
-
-const randomNumbers = fetch(apiURL)
-  .then(res => res.text()
-  .then(data => randomNums=data.split('')));
-console.log(randomNums)
 // Button click handler
 button.addEventListener("click", (e) => {
   if (button.textContent === "Start Game" || button.textContent === "Restart Game") {
@@ -32,7 +26,12 @@ button.addEventListener("click", (e) => {
   };
 });
 
-const startGame = () => {
+const startGame = async () => {
+  // Fetch rasndom num api
+  const numsReceived = await fetch('http://localhost:4000/')
+      .then(res => res.json())
+      .then(data => data);
+  console.log('nummms',numsReceived)
   // Reset game
   game.attempts = attempts;
   randomNums = [];
@@ -42,10 +41,10 @@ const startGame = () => {
   attemptsRemaining.textContent = `Attempts Remaining: ${game.attempts}`;
   
   
-  // for (let i = 0; i < game.num; i++) {
-  //   randomNums.push(Math.floor(Math.random() * 8)); // Random int 0-7
-  // }
-  // console.log(`4-digit code: ${randomNums}`);
+  for (let i = 0; i < game.num; i++) {
+    randomNums.push(Math.floor(Math.random() * 8)); // Random int 0-7
+  }
+  console.log(`4-digit code: ${randomNums}`);
 };
 
 const getPlayerInput = () => {
