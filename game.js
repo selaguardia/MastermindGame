@@ -9,16 +9,19 @@ let playerGuesses = [];
 let correctNums = 0;
 let correctNumsAndPos = 0;
 const attempts = 10;
+
 // Game object
 const game = {
   attempts,
   num: 4,
 };
 
-// Adds dynamic text for button and instructions
-message.textContent = "Click the button below to start game!";
-button.textContent = "Start Game";
+const apiURL = 'https://www.random.org/integers/?num=4&min=0&max=7&col=1&base=10&format=plain&rnd=new'
 
+const randomNumbers = fetch(apiURL)
+  .then(res => res.text()
+  .then(data => randomNums=data.split('')));
+console.log(randomNums)
 // Button click handler
 button.addEventListener("click", (e) => {
   if (button.textContent === "Start Game" || button.textContent === "Restart Game") {
@@ -38,14 +41,11 @@ const startGame = () => {
   button.textContent = "Unlock";
   attemptsRemaining.textContent = `Attempts Remaining: ${game.attempts}`;
   
-  while(playerHistory.firstChild) {
-    playerHistory.removeChild(playerHistory.firstChild);
-  }
   
-  for (let i = 0; i < game.num; i++) {
-    randomNums.push(Math.floor(Math.random() * 8)); // Random int 0-7
-  }
-  console.log(`4-digit code: ${randomNums}`);
+  // for (let i = 0; i < game.num; i++) {
+  //   randomNums.push(Math.floor(Math.random() * 8)); // Random int 0-7
+  // }
+  // console.log(`4-digit code: ${randomNums}`);
 };
 
 const getPlayerInput = () => {
@@ -113,3 +113,4 @@ const handleHistory = () => {
   </li>`;
   playerHistory.insertAdjacentHTML("afterend", html);
 };
+
