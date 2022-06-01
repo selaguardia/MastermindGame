@@ -20,12 +20,12 @@ const apiURL =
 
 app.get("/", async (req, res) => {
   try {
-    const randomNumbers = await fetch(apiURL)
+    const randomNumbersAPI = await fetch(apiURL)
       .then((res) => res.text())
       .then((data) => {
         return data.split("\n");
       });
-      res.send(randomNumbers);
+      res.send(randomNumbersAPI);
   } catch (error) {
     console.log(error);
   }

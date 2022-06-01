@@ -27,15 +27,10 @@ button.addEventListener("click", (e) => {
 });
 
 const startGame = async () => {
-  // Fetch rasndom num api
+  // Fetch random num api
   const numsReceived = await fetch('http://localhost:4000/')
       .then(res => res.json())
-      .then(data => data);
-  numsReceived.pop();
-  for (let index = 0; index < numsReceived.length; index++) {
-    randomNums.push(parseInt(numsReceived[index]));
-  }
-  console.log(`4-digit code: ${randomNums}`)
+      .then(data =>  data);
   // Reset game
   game.attempts = attempts;
   randomNums = [];
@@ -44,32 +39,37 @@ const startGame = async () => {
   button.textContent = "Unlock";
   attemptsRemaining.textContent = `Attempts Remaining: ${game.attempts}`;
   
-  // temp Random number 
-  // for (let i = 0; i < game.num; i++) {
-  //   randomNums.push(Math.floor(Math.random() * 8)); // Random int 0-7
-  // }
-  // console.log(`4-digit code: ${randomNums}`);
+  for (let index = 0; index < game.num; index++) {
+    randomNums.push(parseInt(numsReceived[index]));
+  }
+  console.log(`API 4-digit code: ${randomNums}`);
+  if(randomNums.length === 0) {
+    // Backup Random number 
+    for (let i = 0; i < game.num; i++) {
+      randomNums.push(Math.floor(Math.random() * 8)); // Random int 0-7
+    }
+    console.log(`Backup 4-digit code: ${randomNums}`);
+  }
 };
 
 const getPlayerInput = () => {
   // Decrements attempts
   game.attempts--;
-  // console.log(`Attempts: ${game.attempts}`)
+  console.log(`Attempts: ${game.attempts}`)
   attemptsRemaining.textContent = `Attempts Remaining: ${game.attempts}`;
   playerHistory.innerHTML = "Your Previous Choices:";
   playerInput.forEach((guess) => {
-    // let guessToInt = parseInt(guess.value);
     playerGuesses.push(parseInt(guess.value));
   });
   console.log(`The player guesses... ${playerGuesses}`);
 };
 
 const compareCombos = () => {
-  const length = randomNums.length;
+  const length = 4;
 
   if (game.attempts > 0) {
     // Checks if the player guessed a correct number AND location(index).
-    for (let i = 0; i < length; i++) {
+    for (let i = 0; i < game.num; i++) {
       if (randomNums[i] == playerGuesses[i]) {
         correctNumsAndPos++;
       }
@@ -83,7 +83,7 @@ const compareCombos = () => {
       }
     }
     console.log(`Total Number Correct: ${correctNums}`);
-
+    message.textContent = `You guessed ${correctNums} of the numbers and have ${correctNumsAndPos} number(s) in the correct location.`
     // Checks if the player guessed the entire combination lock
     if (correctNumsAndPos === 4) {
       message.textContent = `Congrats! You unlocked the prize!`;
