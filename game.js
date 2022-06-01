@@ -31,7 +31,11 @@ const startGame = async () => {
   const numsReceived = await fetch('http://localhost:4000/')
       .then(res => res.json())
       .then(data => data);
-  console.log('nummms',numsReceived)
+  numsReceived.pop();
+  for (let index = 0; index < numsReceived.length; index++) {
+    randomNums.push(parseInt(numsReceived[index]));
+  }
+  console.log(`4-digit code: ${randomNums}`)
   // Reset game
   game.attempts = attempts;
   randomNums = [];
@@ -40,11 +44,11 @@ const startGame = async () => {
   button.textContent = "Unlock";
   attemptsRemaining.textContent = `Attempts Remaining: ${game.attempts}`;
   
-  
-  for (let i = 0; i < game.num; i++) {
-    randomNums.push(Math.floor(Math.random() * 8)); // Random int 0-7
-  }
-  console.log(`4-digit code: ${randomNums}`);
+  // temp Random number 
+  // for (let i = 0; i < game.num; i++) {
+  //   randomNums.push(Math.floor(Math.random() * 8)); // Random int 0-7
+  // }
+  // console.log(`4-digit code: ${randomNums}`);
 };
 
 const getPlayerInput = () => {
