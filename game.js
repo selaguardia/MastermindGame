@@ -54,12 +54,12 @@ const startGame = async () => {
 const getPlayerInput = () => {
   // Decrements attempts
   game.attempts--;
-  console.log(`Attempts: ${game.attempts}`)
+  // console.log(`Attempts: ${game.attempts}`)
   attemptsRemaining.textContent = `Attempts Remaining: ${game.attempts}`;
   playerHistory.innerHTML = "Your Previous Choices:";
   playerInput.forEach((guess) => {
-    let guessToInt = parseInt(guess.value);
-    playerGuesses.push(guessToInt);
+    // let guessToInt = parseInt(guess.value);
+    playerGuesses.push(parseInt(guess.value));
   });
   console.log(`The player guesses... ${playerGuesses}`);
 };
@@ -116,4 +116,3 @@ const handleHistory = () => {
   </li>`;
   playerHistory.insertAdjacentHTML("afterend", html);
 };
-
