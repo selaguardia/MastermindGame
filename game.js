@@ -27,10 +27,10 @@ button.addEventListener("click", (e) => {
 });
 
 const startGame = () => {
+  // get computer answers
   generateRandomNumsApi();
   // Reset game
   resetGame();
-
 };
 
 const resetGame = () => {
@@ -42,7 +42,7 @@ const resetGame = () => {
 };
 
 const generateRandomNumsApi = async () => {
-  // Fetch random num api
+  // Fetch random num API returns string
   const numsReceived = await fetch("http://localhost:4000/")
     .then((res) => res.json())
     .then((data) => data);
@@ -71,6 +71,10 @@ const getPlayerInput = () => {
   attemptsRemaining.textContent = `Attempts Remaining: ${game.attempts}`;
   playerHistory.innerHTML = "Your Previous Choices:";
   playerInput.forEach((guess) => {
+    console.log(`player guess ${guess.value} type ${typeof guess.value} with lenght ${guess.value.length}`)
+    if(guess.value.length > 1) {
+      alert()
+    }
     playerGuesses.push(parseInt(guess.value));
   });
   console.log(`The player guesses... ${playerGuesses}`);
@@ -85,24 +89,30 @@ const decreaseAttempts = () => {
 const compareCombos = () => {
 
   if (game.attempts > 0) {
-    // Checks if the player guessed a correct number AND location(index).
-    for (let i = 0; i < game.num; i++) {
-      if (randomNums[i] === playerGuesses[i]) {
+
+    for (let i = 0; i < playerGuesses.length; i++) {
+      if(randomNums[i] === playerGuesses[i]) {
+        correctNums++;
         correctNumsAndPos++;
-        // Changes input background to green and font to white.
-        playerInput[i].classList.add('bg-success');
-        playerInput[i].classList.add('text-white');
+      } else if (playerGuesses.includes(randomNums[i])){
+        correctNums++;
       }
-    }
+     }
+    // // Checks if the player guessed a correct number AND location(index).
+    // for (let i = 0; i < game.num; i++) {
+    //   if (randomNums[i] === playerGuesses[i]) {
+    //     correctNumsAndPos++;
+    //   }
+    // }
 
     console.log(`Total Number & Position Correct: ${correctNumsAndPos}`);
 
-    // Checks if the player guessed a correct number
-    for (let j = 0; j < game.num; j++) {
-      if (randomNums.includes(playerGuesses[j])) {
-        correctNums++;
-      }
-    }
+    // // Checks if the player guessed a correct number
+    // for (let j = 0; j < game.num; j++) {
+    //   if (randomNums.includes(playerGuesses[j])) {
+    //     correctNums++;
+    //   }
+    // }
     console.log(`Total Number Correct: ${correctNums}`);
     message.textContent = `You guessed ${correctNums} of ${game.num} the numbers and have ${correctNumsAndPos} number(s) in the correct location.`;
 
