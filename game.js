@@ -9,7 +9,6 @@ let randomNums = [];
 let playerGuesses = [];
 let correctNums = 0;
 let correctNumsAndPos = 0;
-// const attempts = 10;
 
 // Game object
 const game = { attempts: 10, num: 4 };
@@ -31,14 +30,15 @@ const startGame = () => {
   generateRandomNumsApi();
   // Reset game
   resetGame();
-  message.textContent = "Guess the 4-digit combo to unlock the prize";
-  button.textContent = "Unlock";
-  attemptsRemaining.textContent = `Attempts Remaining: ${game.attempts}`;
+
 };
 
 const resetGame = () => {
   randomNums = [];
   playerGuesses = [];
+  message.textContent = "Guess the 4-digit combo to unlock the prize";
+  button.textContent = "Unlock";
+  attemptsRemaining.textContent = `Attempts Remaining: ${game.attempts}`;
 };
 
 const generateRandomNumsApi = async () => {
@@ -104,7 +104,7 @@ const compareCombos = () => {
       }
     }
     console.log(`Total Number Correct: ${correctNums}`);
-    message.textContent = `You guessed ${correctNums} of the numbers and have ${correctNumsAndPos} number(s) in the correct location.`;
+    message.textContent = `You guessed ${correctNums} of ${game.num} the numbers and have ${correctNumsAndPos} number(s) in the correct location.`;
 
     // Checks if the player guessed the entire combination lock
     if (correctNumsAndPos === 4) {
