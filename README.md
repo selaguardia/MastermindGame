@@ -1,23 +1,26 @@
 ## Table of contents
 - [Table of contents](#table-of-contents)
-- [General Info](#general-info)
-- [How to Run](#how-to-run)
+- [🎰General Info 🔐](#general-info-)
+- [👨🏻‍💻 How to Run 👩🏾‍💻](#-how-to-run-)
     - [**Step 1:**](#step-1)
     - [**Step 2:**](#step-2)
     - [**Step 3:**](#step-3)
   - [**Step 4:**](#step-4)
   - [**Step 5:**](#step-5)
-- [Technologies](#technologies)
-- [More about this project](#more-about-this-project)
+        - [✨(Open the browser console to reveal the answer 😜)](#open-the-browser-console-to-reveal-the-answer-)
+- [🧰 Technologies 🛠️](#-technologies-️)
+- [✨ More about this project ✨](#-more-about-this-project-)
+    - [Backend](#backend)
+    - [Frontend](#frontend)
   - [Creating the game and its functionality](#creating-the-game-and-its-functionality)
-- [Creative Extensions implemented / attempted](#creative-extensions-implemented--attempted)
-- [Future features](#future-features)
+- [🔔 Creative Extensions Implemented / Attempted 🔔](#-creative-extensions-implemented--attempted-)
+- [🔮 Future features 🔮](#-future-features-)
 #
-## General Info
-This is a Mastermind game where the player tries to guess the number combination created by the computer.
+## 🎰General Info 🔐
+This is a Mastermind game where the player tries to guess the number combination 🔒🔒🔒🔒 created by the computer.
 #
 
-## How to Run
+## 👨🏻‍💻 How to Run 👩🏾‍💻
 #### **Step 1:**
 To run this project, you will need to have...
 * Node.js installed locally on your computer. (to check type ```node -v``` in your terminal)
@@ -38,9 +41,10 @@ Inside Visual Studio Code, right click ```home.html``` and open with Liver Serve
 
 ### **Step 5:**
 Enjoy the game
+###### ✨(Open the browser console to reveal the answer 😜)
 #
 
-## Technologies
+## 🧰 Technologies 🛠️
 Project is created with:
 * Node version: 16.4.2
 * Express version: 4.18.1
@@ -50,12 +54,14 @@ Project is created with:
 
 #
 
-## More about this project
-I seperated the backend into its own folder
-In the ```server.js``` file...
- - the server is created using the Express framework
- - Using ```fetch-node```, I created an async function to call the RandomNumbers API, and return its data back. 
-For the frontend, I created an HTML page and utilized the Bootstrap 5 CSS framework to create the User Interface
+## ✨ More about this project ✨
+#### Backend
+- The backend is seperated into its own folder
+- In the ```server.js``` file...
+   - the server is created using the Express framework
+   - Using ```fetch-node```, I created an async function to call the RandomNumbers API, and return its data back. 
+#### Frontend
+- For the frontend, I created an HTML page and utilized Bootstrap5, a CSS framework to create the User Interface.
 
 ### Creating the game and its functionality
   - All variables declared at the begging
@@ -71,14 +77,19 @@ For the frontend, I created an HTML page and utilized the Bootstrap 5 CSS framew
     - If the user guesses all digits correctly, the game stops and shows a congratulatory message, and gives the user the option to restart the game
     - If not, the user can continue the game until attempts are depleted and the player history is added to the bottom of the User Interface through another function that insert HTML into the web page.
 #
-## Creative Extensions implemented / attempted
--
-#
-## Future features
+## 🔔 Creative Extensions Implemented / Attempted 🔔
+- Added hints for each guess
+    #### 🟩 ➡️ Correct
+    #### 🟨 ➡️ Number too high
+    #### 🟥 ➡️ Number too low
 
-- Add color (red, yellow, green) hints for level 1
-- Add timer for level 2
+#
+## 🔮 Future features 🔮
+
+- Add timer ⌛ for level 2
 - Remove color (red, yellow) for level 3
 - Create profile for players
+
+
 
 

@@ -112,7 +112,6 @@ const addPlayerHints = () => {
 const decreaseAttempts = () => {
   // Decrements attempts
   game.attempts--;
-  console.log(`Attempts: ${game.attempts}`);
 }
 
 const compareCombos = () => {
@@ -127,10 +126,6 @@ const compareCombos = () => {
         correctNums++;
       }
      }
-    
-
-    console.log(`Total Number & Position Correct: ${correctNumsAndPos}`);
-    console.log(`Total Number Correct: ${correctNums}`);
     message.textContent = `You guessed ${correctNums} of ${game.num} the numbers and have ${correctNumsAndPos} number(s) in the correct location.`;
 
     // Checks if the player guessed the entire combination lock
