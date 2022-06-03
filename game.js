@@ -3,27 +3,31 @@ const button = document.getElementById("checkButton");
 const playerHistory = document.getElementById("playerHistory");
 const attemptsRemaining = document.getElementById("attemptRemaining");
 const playerInput = document.querySelectorAll(".playerInput");
-const playerPoints = document.getElementById('playerPoints')
+const playerPoints = document.getElementById("playerPoints");
+const timer = document.getElementById("timer");
 let randomNums = [];
 let playerGuesses = [];
 let correctNums = 0;
 let correctNumsAndPos = 0;
 
 // Game object
-const game = { 
-  attempts: 10, 
-  num: 4 ,
-  points:0,
+const game = {
+  attempts: 10,
+  num: 4,
+  points: 0,
 };
 
 // Button click handler
 button.addEventListener("click", (e) => {
-  if (
-    button.textContent === "Start Game" ||
-    button.textContent === "Restart Game"
-  ) {
+  if (button.textContent === "Start Game" || button.textContent === "Restart Game") {
     startGame();
-  } else if (button.textContent === "Unlock" && playerInput[0].value !== '' && playerInput[1].value !== '' && playerInput[2].value !== '' && playerInput[3].value !== '' ) {
+  } else if (
+    button.textContent === "Unlock" &&
+    playerInput[0].value !== "" &&
+    playerInput[1].value !== "" &&
+    playerInput[2].value !== "" &&
+    playerInput[3].value !== ""
+  ) {
     getPlayerInput();
     compareCombos();
   }
@@ -44,15 +48,14 @@ const resetGame = () => {
   message.textContent = "Guess the 4-digit combo to unlock the prize";
   button.textContent = "Unlock";
   attemptsRemaining.textContent = `Attempts Remaining: ${game.attempts} `;
-  for (let i = 0; i < 4; i++) {
-    playerInput[i].classList.remove('bg-danger')
-    playerInput[i].classList.remove('bg-warning')
-    playerInput[i].classList.remove('bg-success')
-    playerInput[i].classList.remove('text-white')
-    playerInput[i].value = '';
+  for (let i = 0; i < game.num; i++) {
+    playerInput[i].classList.remove("bg-danger");
+    playerInput[i].classList.remove("bg-warning");
+    playerInput[i].classList.remove("bg-success");
+    playerInput[i].classList.remove("text-white");
+    playerInput[i].value = "";
   }
 };
-
 
 const generateRandomNumsApi = async () => {
   // Fetch random num API returns string
@@ -84,80 +87,85 @@ const getPlayerInput = () => {
   attemptsRemaining.textContent = `Attempts Remaining: ${game.attempts}`;
   playerHistory.innerHTML = "Your Previous Choices:";
   playerInput.forEach((guess) => {
-    playerGuesses.push(parseInt(guess.value));
+    let checkedValue = parseInt(guess.value);
+    if (checkedValue >= 0 && checkedValue <= 7) {
+      playerGuesses.push(checkedValue);
+      addPlayerHints();
+    } else {
+      alert("Enter digit between 0 - 7");
+    }
   });
-  addPlayerHints();
+};
+
+const compareCombos = () => {
+  if (game.attempts > 0) {
+    for (let i = 0; i < playerGuesses.length; i++) {
+      if (randomNums[i] === playerGuesses[i]) {
+        correctNums++;
+        correctNumsAndPos++;
+      } else if (playerGuesses.includes(randomNums[i])) {
+        correctNums++;
+      }
+    }
+    message.textContent = `You guessed ${correctNums} of ${game.num} the numbers and have ${correctNumsAndPos} number(s) in the correct location.`;
+
+    // Checks if the player guessed the entire combination lock
+    if (correctNumsAndPos === game.num) {
+      increasePoints();
+      message.textContent = `Congrats! You unlocked the prize!`;
+      button.textContent = "Restart Game";
+    }
+    // adds player history
+    handleHistory();
+  } else {
+    decreasePoints();
+    message.textContent = "Sorry, you ran out of attempts!";
+    button.textContent = "Restart Game";
+  };
 };
 
 const addPlayerHints = () => {
   // Adds player hints
   for (let i = 0; i < playerGuesses.length; i++) {
-    if(randomNums[i] === playerGuesses[i]) {
-      playerInput[i].classList.remove('bg-danger')
-      playerInput[i].classList.remove('bg-warning')
-      playerInput[i].classList.add('bg-success')
-      playerInput[i].classList.add('text-white')
-    } else if(randomNums[i] > playerGuesses[i]){
-      playerInput[i].classList.remove('bg-success')
-      playerInput[i].classList.remove('bg-warning')
-      playerInput[i].classList.add('bg-danger')
-      playerInput[i].classList.add('text-white')
+    if (randomNums[i] === playerGuesses[i]) {
+      playerInput[i].classList.remove("bg-danger");
+      playerInput[i].classList.remove("bg-warning");
+      playerInput[i].classList.add("bg-success");
+      playerInput[i].classList.add("text-white");
+    } else if (randomNums[i] > playerGuesses[i]) {
+      playerInput[i].classList.remove("bg-success");
+      playerInput[i].classList.remove("bg-warning");
+      playerInput[i].classList.add("bg-danger");
+      playerInput[i].classList.add("text-white");
     } else {
-      playerInput[i].classList.remove('bg-danger')
-      playerInput[i].classList.remove('bg-success')
-      playerInput[i].classList.add('bg-warning')
-      playerInput[i].classList.add('text-white')
+      playerInput[i].classList.remove("bg-danger");
+      playerInput[i].classList.remove("bg-success");
+      playerInput[i].classList.add("bg-warning");
+      playerInput[i].classList.add("text-white");
     }
-   }
-}
+  }
+};
+
 const increasePoints = () => {
   game.points += 10;
   playerPoints.textContent = game.points;
-}
+  // adds timers if player reaches 100 points
+  if (game.points >= 100) {
+    console.log("Timer started");
+    addTimer();
+  }
+};
 
 const decreasePoints = () => {
-  if(game.points >= 10) {
-    game.points -= 10;
+  if (game.points >= 5) {
+    game.points -= 5;
     playerPoints.textContent = game.points;
   }
-}
+};
+
 const decreaseAttempts = () => {
   // Decrements attempts
   game.attempts--;
-}
-
-const compareCombos = () => {
-
-  if (game.attempts > 0) {
-
-    for (let i = 0; i < playerGuesses.length; i++) {
-      if(randomNums[i] === playerGuesses[i]) {
-        correctNums++;
-        correctNumsAndPos++;
-      } else if (playerGuesses.includes(randomNums[i])){
-        correctNums++;
-      }
-     }
-    message.textContent = `You guessed ${correctNums} of ${game.num} the numbers and have ${correctNumsAndPos} number(s) in the correct location.`;
-
-    // Checks if the player guessed the entire combination lock
-    if (correctNumsAndPos === game.num) {
-      console.log(`Started with ${game.points} points!`)
-      increasePoints();
-      console.log(`You now have ${game.points} points!`)
-      message.textContent = `Congrats! You unlocked the prize!`;
-      button.textContent = "Restart Game";
-    }
-
-    // adds player history
-    handleHistory();
-  } else {
-    console.log(`Started with ${game.points} points!`)
-    decreasePoints();
-    console.log(`You now have ${game.points} points!`)
-    message.textContent = "Sorry, you ran out of attempts!";
-    button.textContent = "Restart Game";
-  }
 };
 
 const handleHistory = () => {

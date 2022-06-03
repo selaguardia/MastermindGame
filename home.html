@@ -51,7 +51,6 @@
           
             <div class="card-footer text-muted">
               <div class="d-flex">
-
                 <button type="button" class="btn btn-success">
                   Points <span class="badge text-bg-danger" id="playerPoints"></span>
                 </button>
@@ -74,10 +73,14 @@
                 </h2>
                 <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                   <div class="accordion-body">
-                    <ul>
-                      <li>Guess the 4-digit combo by entering a single interger between 0-7</li>
-                      <li>You have 10 attempts</li>
-                    </ul>
+                    <div class="d-flex align-items-start">  
+                      <ol style="text-align: start !important; ">
+                        <li>Guess the 4-digit combo by entering a single interger between 0-7</li>
+                        <li>Every time you unlock the combination you WIN 10 points</li>
+                        <li>Everytime you run out of attempts, you lose 5 points.</li>
+                        <li>You have 10 attempts</li>
+                      </ol>
+                    </div>
                   </div>
                 </div>
               </div>
