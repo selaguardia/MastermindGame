@@ -3,7 +3,7 @@ const button = document.getElementById("checkButton");
 const playerHistory = document.getElementById("playerHistory");
 const attemptsRemaining = document.getElementById("attemptRemaining");
 const playerInput = document.querySelectorAll(".playerInput");
-
+const playerPoints = document.getElementById('playerPoints')
 let randomNums = [];
 let playerGuesses = [];
 let correctNums = 0;
@@ -13,6 +13,7 @@ let correctNumsAndPos = 0;
 const game = { 
   attempts: 10, 
   num: 4 ,
+  points:0,
 };
 
 // Button click handler
@@ -33,6 +34,7 @@ const startGame = () => {
   generateRandomNumsApi();
   // Reset game
   resetGame();
+  playerPoints.textContent = game.points;
 };
 
 const resetGame = () => {
@@ -41,7 +43,7 @@ const resetGame = () => {
   game.attempts = 10;
   message.textContent = "Guess the 4-digit combo to unlock the prize";
   button.textContent = "Unlock";
-  attemptsRemaining.textContent = `Attempts Remaining: ${game.attempts}`;
+  attemptsRemaining.textContent = `Attempts Remaining: ${game.attempts} `;
   for (let i = 0; i < 4; i++) {
     playerInput[i].classList.remove('bg-danger')
     playerInput[i].classList.remove('bg-warning')
@@ -108,7 +110,17 @@ const addPlayerHints = () => {
     }
    }
 }
+const increasePoints = () => {
+  game.points += 10;
+  playerPoints.textContent = game.points;
+}
 
+const decreasePoints = () => {
+  if(game.points >= 10) {
+    game.points -= 10;
+    playerPoints.textContent = game.points;
+  }
+}
 const decreaseAttempts = () => {
   // Decrements attempts
   game.attempts--;
@@ -130,6 +142,9 @@ const compareCombos = () => {
 
     // Checks if the player guessed the entire combination lock
     if (correctNumsAndPos === game.num) {
+      console.log(`Started with ${game.points} points!`)
+      increasePoints();
+      console.log(`You now have ${game.points} points!`)
       message.textContent = `Congrats! You unlocked the prize!`;
       button.textContent = "Restart Game";
     }
@@ -137,6 +152,9 @@ const compareCombos = () => {
     // adds player history
     handleHistory();
   } else {
+    console.log(`Started with ${game.points} points!`)
+    decreasePoints();
+    console.log(`You now have ${game.points} points!`)
     message.textContent = "Sorry, you ran out of attempts!";
     button.textContent = "Restart Game";
   }
