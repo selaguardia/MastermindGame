@@ -3,7 +3,6 @@ const button = document.getElementById("checkButton");
 const playerHistory = document.getElementById("playerHistory");
 const attemptsRemaining = document.getElementById("attemptRemaining");
 const playerInput = document.querySelectorAll(".playerInput");
-const hints = document.getElementById("hintsCheckbox");
 
 let randomNums = [];
 let playerGuesses = [];
@@ -14,7 +13,6 @@ let correctNumsAndPos = 0;
 const game = { 
   attempts: 10, 
   num: 4 ,
-  hints: false
 };
 
 // Button click handler
@@ -24,18 +22,11 @@ button.addEventListener("click", (e) => {
     button.textContent === "Restart Game"
   ) {
     startGame();
-  } else if (button.textContent === "Unlock") {
+  } else if (button.textContent === "Unlock" && playerInput[0].value !== '' && playerInput[1].value !== '' && playerInput[2].value !== '' && playerInput[3].value !== '' ) {
     getPlayerInput();
     compareCombos();
   }
 });
-console.log('hints', hints.checked)
-
-hints.addEventListener('click', (e) => {
-  if(hints.checked) {
-    game.hints = true;
-  }
-})
 
 const startGame = () => {
   // get computer answers
@@ -47,6 +38,7 @@ const startGame = () => {
 const resetGame = () => {
   randomNums = [];
   playerGuesses = [];
+  game.attempts = 10;
   message.textContent = "Guess the 4-digit combo to unlock the prize";
   button.textContent = "Unlock";
   attemptsRemaining.textContent = `Attempts Remaining: ${game.attempts}`;
@@ -57,12 +49,8 @@ const resetGame = () => {
     playerInput[i].classList.remove('text-white')
     playerInput[i].value = '';
   }
-  removeHistory();
 };
 
-const removeHistory = () => {
-  playerHistory.innerHTML = "";
-}
 
 const generateRandomNumsApi = async () => {
   // Fetch random num API returns string
@@ -94,11 +82,12 @@ const getPlayerInput = () => {
   attemptsRemaining.textContent = `Attempts Remaining: ${game.attempts}`;
   playerHistory.innerHTML = "Your Previous Choices:";
   playerInput.forEach((guess) => {
-    console.log(`player guess ${guess.value} type ${typeof guess.value} with lenght ${guess.value.length}`)
-
     playerGuesses.push(parseInt(guess.value));
   });
-  console.log(`The player guesses... ${playerGuesses}`);
+  addPlayerHints();
+};
+
+const addPlayerHints = () => {
   // Adds player hints
   for (let i = 0; i < playerGuesses.length; i++) {
     if(randomNums[i] === playerGuesses[i]) {
@@ -118,7 +107,7 @@ const getPlayerInput = () => {
       playerInput[i].classList.add('text-white')
     }
    }
-};
+}
 
 const decreaseAttempts = () => {
   // Decrements attempts
