@@ -11,7 +11,9 @@ let correctNums = 0;
 let correctNumsAndPos = 0;
 
 // Game object
-const game = { attempts: 10, num: 4 };
+const game = { 
+  attempts: 10, 
+  num: 4 };
 
 // Button click handler
 button.addEventListener("click", (e) => {
@@ -23,8 +25,10 @@ button.addEventListener("click", (e) => {
   } else if (button.textContent === "Unlock") {
     getPlayerInput();
     compareCombos();
+
   }
 });
+
 
 const startGame = () => {
   // get computer answers
@@ -39,7 +43,23 @@ const resetGame = () => {
   message.textContent = "Guess the 4-digit combo to unlock the prize";
   button.textContent = "Unlock";
   attemptsRemaining.textContent = `Attempts Remaining: ${game.attempts}`;
+
+  removeHistory();
 };
+const resetPlayerInput = () => {
+  playerInput.removeAttribute('disabled');
+}
+const removeHistory = () => {
+  playerHistory.innerHTML = "";
+  
+  let hist =playerHistory.firstElementChild;
+  console.log('hist->',hist)
+  // while(hist){
+  //   console.log('hist')
+  //   // playerHistory.removeChild(hist);
+  //   // hist = playerHistory.lastElementChild;
+  // }
+}
 
 const generateRandomNumsApi = async () => {
   // Fetch random num API returns string
@@ -72,9 +92,7 @@ const getPlayerInput = () => {
   playerHistory.innerHTML = "Your Previous Choices:";
   playerInput.forEach((guess) => {
     console.log(`player guess ${guess.value} type ${typeof guess.value} with lenght ${guess.value.length}`)
-    if(guess.value.length > 1) {
-      alert()
-    }
+
     playerGuesses.push(parseInt(guess.value));
   });
   console.log(`The player guesses... ${playerGuesses}`);
@@ -98,26 +116,14 @@ const compareCombos = () => {
         correctNums++;
       }
      }
-    // // Checks if the player guessed a correct number AND location(index).
-    // for (let i = 0; i < game.num; i++) {
-    //   if (randomNums[i] === playerGuesses[i]) {
-    //     correctNumsAndPos++;
-    //   }
-    // }
+    
 
     console.log(`Total Number & Position Correct: ${correctNumsAndPos}`);
-
-    // // Checks if the player guessed a correct number
-    // for (let j = 0; j < game.num; j++) {
-    //   if (randomNums.includes(playerGuesses[j])) {
-    //     correctNums++;
-    //   }
-    // }
     console.log(`Total Number Correct: ${correctNums}`);
     message.textContent = `You guessed ${correctNums} of ${game.num} the numbers and have ${correctNumsAndPos} number(s) in the correct location.`;
 
     // Checks if the player guessed the entire combination lock
-    if (correctNumsAndPos === 4) {
+    if (correctNumsAndPos === game.num) {
       message.textContent = `Congrats! You unlocked the prize!`;
       button.textContent = "Restart Game";
     }

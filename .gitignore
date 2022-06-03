@@ -1,13 +1,2 @@
 node_modules
 .env
-
-
-//! TODO - 
-- Fix bug where if digits are repeated
-- Is there a better way to check for the correct answers
-
-- Add color (red, yellow, green) hints for level 1
-- Add timer for level 2
-- Remove color (red, yellow) for level 3
-
-- readME.md
