@@ -1,22 +1,11 @@
 const express = require("express");
 const app = express();
-const PORT = process.env.PORT || 4000;
-
 const cors = require("cors");
-app.use(
-  cors({
-    origin: "*",
-  })
-);
-
+const PORT = process.env.PORT || 4000;
 const fetch = require("node-fetch");
+const apiURL = "https://www.random.org/integers/?num=4&min=0&max=7&col=1&base=10&format=plain&rnd=new";
 
-// Middleware
-// app.use(express.urlencoded({ extended: false })); // Body parser
-// app.use(express.static("public"));
-
-const apiURL =
-  "https://www.random.org/integers/?num=4&min=0&max=7&col=1&base=10&format=plain&rnd=new";
+app.use(cors({origin: "*",}));
 
 app.get("/", async (req, res) => {
   try {
@@ -30,7 +19,6 @@ app.get("/", async (req, res) => {
     console.log(error);
   }
 });
-
 
 app.listen(PORT, () => {
   console.log(`✅ Listening for client requests on Port ${PORT} ✅`);

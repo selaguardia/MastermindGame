@@ -13,7 +13,9 @@ let correctNumsAndPos = 0;
 // Game object
 const game = { 
   attempts: 10, 
-  num: 4 };
+  num: 4 ,
+  hints: false
+};
 
 // Button click handler
 button.addEventListener("click", (e) => {
@@ -25,10 +27,15 @@ button.addEventListener("click", (e) => {
   } else if (button.textContent === "Unlock") {
     getPlayerInput();
     compareCombos();
-
   }
 });
+console.log('hints', hints.checked)
 
+hints.addEventListener('click', (e) => {
+  if(hints.checked) {
+    game.hints = true;
+  }
+})
 
 const startGame = () => {
   // get computer answers
@@ -43,22 +50,18 @@ const resetGame = () => {
   message.textContent = "Guess the 4-digit combo to unlock the prize";
   button.textContent = "Unlock";
   attemptsRemaining.textContent = `Attempts Remaining: ${game.attempts}`;
-
+  for (let i = 0; i < 4; i++) {
+    playerInput[i].classList.remove('bg-danger')
+    playerInput[i].classList.remove('bg-warning')
+    playerInput[i].classList.remove('bg-success')
+    playerInput[i].classList.remove('text-white')
+    playerInput[i].value = '';
+  }
   removeHistory();
 };
-const resetPlayerInput = () => {
-  playerInput.removeAttribute('disabled');
-}
+
 const removeHistory = () => {
   playerHistory.innerHTML = "";
-  
-  let hist =playerHistory.firstElementChild;
-  console.log('hist->',hist)
-  // while(hist){
-  //   console.log('hist')
-  //   // playerHistory.removeChild(hist);
-  //   // hist = playerHistory.lastElementChild;
-  // }
 }
 
 const generateRandomNumsApi = async () => {
@@ -96,6 +99,25 @@ const getPlayerInput = () => {
     playerGuesses.push(parseInt(guess.value));
   });
   console.log(`The player guesses... ${playerGuesses}`);
+  // Adds player hints
+  for (let i = 0; i < playerGuesses.length; i++) {
+    if(randomNums[i] === playerGuesses[i]) {
+      playerInput[i].classList.remove('bg-danger')
+      playerInput[i].classList.remove('bg-warning')
+      playerInput[i].classList.add('bg-success')
+      playerInput[i].classList.add('text-white')
+    } else if(randomNums[i] > playerGuesses[i]){
+      playerInput[i].classList.remove('bg-success')
+      playerInput[i].classList.remove('bg-warning')
+      playerInput[i].classList.add('bg-danger')
+      playerInput[i].classList.add('text-white')
+    } else {
+      playerInput[i].classList.remove('bg-danger')
+      playerInput[i].classList.remove('bg-success')
+      playerInput[i].classList.add('bg-warning')
+      playerInput[i].classList.add('text-white')
+    }
+   }
 };
 
 const decreaseAttempts = () => {
